@@ -18,47 +18,85 @@ $(document).ready(function(){
 
     var total_questions =0;
     var wrong_questions=0;
+    var completion = false;
     var question_count=$("#question-count");
     var question_bilboard=$("#question-display");
     var response_display=$("#response-display");
     set_up_response_array();
     
 
-    function make_answers(){
+    function make_answers(index){ ///needs to splice after answer generation
+        
         for(let i=0;i<4;i++){
             let answer_space = $('<p class="answer-space">');
+            let answer_text = responses[index][i];
             answer_space.attr('id',i);
             answer_space.appendTo(response_display);
-            answer_space.html(responses[total_questions][i]);
+            answer_space.html(answer_text);
+            answer_space.data("text-data",answer_text);
             
 
         }
+        responses.splice(index,1);
+        
         
         
     }
     function make_question(){
+        let rand = Math.floor(Math.random()*questions.length); //sets up random number from questions array
         
-        let question_to_display = questions[total_questions];
-        //questions.splice(question_to_display); will be neccisary for randomization but unnecisary for testing
+        question_to_display = set_question_to_display(rand); //sets value for the current question
+
+        make_answers(rand);
         question_count.html("Question #" + total_questions++ + ":");
         question_bilboard.html(question_to_display);
-        make_answers();
-        total_questions++;
+        
+        
+        
         
 
 
 
+
+    }
+    function set_question_to_display(rand){
+       
+        let the_question = questions[rand];
+        
+        if(questions.length > 1){
+            questions.splice(questions.indexOf(the_question),1);
+
+        }
+        else{
+          completion = true;  
+        }
+        
+        return the_question;
 
     }
     function clean_answers(){
         response_display.empty();
     }
+    function game_over(){ ////will eventually bring up results screen but for now just refreshes page
+        alert("GAME OVER");
+        window.location.reload();
+
+    }
+
+
+
+
     make_question();
-    $(".answer-space").click(()=>{
-        clean_answers();
-        make_question();
-
-
+    
+    response_display.on("click", ".answer-space", function(){
+        if(completion === false){
+            clean_answers();
+            make_question();
+        }
+        else{
+            game_over();
+        }
+        
     });
 
 });
