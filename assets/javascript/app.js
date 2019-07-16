@@ -24,22 +24,41 @@ $(document).ready(function(){
     set_up_response_array();
     
 
-    function make_question(){
-        
-        var question_to_display = questions[total_questions];
-        questions.splice(question_to_display);
-        for(let i =0; i<4;i++){
-            response_display.append(responses[total_questions][i]);
+    function make_answers(){
+        for(let i=0;i<4;i++){
+            let answer_space = $('<p class="answer-space">');
+            answer_space.attr('id',i);
+            answer_space.appendTo(response_display);
+            answer_space.html(responses[total_questions][i]);
+            
 
         }
+        
+        
+    }
+    function make_question(){
+        
+        let question_to_display = questions[total_questions];
+        //questions.splice(question_to_display); will be neccisary for randomization but unnecisary for testing
         question_count.html("Question #" + total_questions++ + ":");
         question_bilboard.html(question_to_display);
+        make_answers();
+        total_questions++;
         
 
 
 
 
     }
+    function clean_answers(){
+        response_display.empty();
+    }
     make_question();
+    $(".answer-space").click(()=>{
+        clean_answers();
+        make_question();
+
+
+    });
 
 });
