@@ -82,11 +82,16 @@ $(document).ready(function(){
         window.location.reload();
 
     }
+    function find_right_answer(){
+        let the_question = question_bilboard.get('text');
+        console.log(the_question);
+    }
 
 
 
 
     make_question();
+    //find_right_answer();
     
     response_display.on("click", ".answer-space", function(){
         if(completion === false){
