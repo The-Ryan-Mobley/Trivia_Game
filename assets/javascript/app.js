@@ -1,8 +1,8 @@
-$(window).load(function(){
+$(window).on('load',function(){
     var main_body = $("#main-body");
     var questions = ["He who controls the spice controls?:","The gunslinger followed the?:","Do androids dream of?:","___ is watching you?:", "I'm afraid I can't do that __: ",
     "fear is the ___:","Don't ___: ","IT'S ____:","Luke i am your ___:","so long and ___:"];
-    var responses = new Array(4);
+    var responses = new Array(10);
     var total_questions =0;
     var wrong_questions=0;
     var right_answers=0;
@@ -14,8 +14,8 @@ $(window).load(function(){
     var watch = $("#watch");
     var Control_Interval;
     var time = 30;
-    var question_pic = new Image();
-    var pic_canvas = $('<canvas/>',{'id':'pic-canvas'}).width(200).height(200);
+    var question_pic = new Image(200,200);
+    
     
 
 
@@ -74,54 +74,19 @@ $(window).load(function(){
     function clean_answers(){
         response_display.empty();
     }
-    function game_over(){ ////will eventually bring up results screen but for now just refreshes page
+    function game_over(){
         window.location.reload();
 
     }
     function find_right_answer(TQ){
-        switch(TQ){
-            case 0:{
-                right_answer =responses[0][2];
-                break;
-            }
-            case 1:{
-                right_answer = responses[1][1];
-                break;
-            }
-            case 2:{
-                right_answer = responses[2][1];
-                break;
-            }
-            case 3:{
-                right_answer = responses[3][2];
-                break;
-            }
-            case 4:{
-                right_answer = responses[4][0];
-                break;
-            }
-            case 5:{
-                right_answer = responses[5][2];
-                break;
-            }
-            case 6:{
-                right_answer = responses[6][3];
-                break;
-            }
-            case 7:{
-                right_answer = responses[7][1];
-                break;
-            }
-            case 8:{
-                right_answer = responses[8][2];
-                break;
-            }
-            case 9:{
-                right_answer = responses[9][0];
-                break;
-            }
-
-        }
+        let right_list = ["The universe","The man in black","Electric sheep","Big brother","Dave",
+        "mind killer","panic","ALIVE!",];
+        let source_list = ["assets/images/spice_must_flow.jpg","assets/images/a24321d3060379def7dd0e1c7d53af47.jpg",
+        "assets/images/bits_bladerunner.1.jpg","assets/images/320998.jpg","assets/images/Im+afraid+i+cant+let+you+do+that+dave+_51f9a022cee2586facec11d87b7f82c4.png",
+        "assets/images/image-fear-is-the-mind-killer-720x405.jpg","assets/images/Hitchhikers-Guide-Dont-Panic-Thumb-975-Decal-Sticker.jpg",
+        "assets/images/FrankMonster.jpg","assets/images/_50101230_file0011.jpg","assets/images/2405_shirt_ee9da7c533758fb00eb7be9a1c5bfb44.gif"];
+        right_answer = right_list[TQ];
+        question_pic.src = source_list[TQ];
     }
     function user_answer(element){
         if(element.data("text-data") !== right_answer){
