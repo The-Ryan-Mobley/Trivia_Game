@@ -2,10 +2,24 @@ $(document).ready(function(){
     var main_body = $("#main-body");
     var questions = ["He who controls the spice controls?:","The gunslinger followed the?:","Do androids dream of?:","___ is watching you?:", "I can't let you do that __: "];
     var responses = new Array(4);
+    var total_questions =0;
+    var wrong_questions=0;
+    var completion = false;
+    var right_answer = "";
+    var question_count=$("#question-count");
+    var question_bilboard=$("#question-display");
+    var response_display=$("#response-display");
+    var watch = $("#watch");
+    var Control_Interval;
+    var time = 30;
+
+
+
+    
+   function set_up_response_array(){
     for(let i=0; i < responses.length;i++){
         responses[i] = new Array(4);
     }
-   function set_up_response_array(){
        responses[0]=["The world","The road","The universe","Flavortown"];
        responses[1]=["The dude","The man in black","Matthew McConaughey","Yellow brick road"];
        responses[2]=["Refactoring code","Electric sheep","Cybernetic Chickens","The great basilisk. the greatest invention of them all"];
@@ -16,14 +30,8 @@ $(document).ready(function(){
     
     
 
-    var total_questions =0;
-    var wrong_questions=0;
-    var completion = false;
-    var right_answer = "";
-    var question_count=$("#question-count");
-    var question_bilboard=$("#question-display");
-    var response_display=$("#response-display");
-    set_up_response_array();
+    
+    
     
 
     function make_answers(index){ ///needs to splice after answer generation
@@ -42,10 +50,11 @@ $(document).ready(function(){
     }
     function make_question(){
         
-        
+        time = 30;
         question_to_display = questions[total_questions];
         find_right_answer();
         make_answers(total_questions);
+        watch.html("Time Left: " + time);
         question_count.html("Question #" + total_questions + ":");
         question_bilboard.html(question_to_display);
         total_questions++;
@@ -96,6 +105,7 @@ $(document).ready(function(){
         let answer_space = $('<p class="answer-space">');
         let right_answers = total_questions - wrong_questions;
         clean_answers();
+        watch.html("TIME");
         question_count.html("GAME OVER!");
         question_bilboard.html("YOUR SCORE: <br> Right Answers" + right_answers + "<br> Wrong Answers: " + wrong_questions + "<br> Final score: "+ right_answers*10);
         answer_space.appendTo(response_display);
@@ -109,20 +119,39 @@ $(document).ready(function(){
             endscreen();
         }
     }
+    function tick(){
+        time--;
+        watch.html = ("Time Left: " + time);
+        wrong_questions++;
+        
+        
+        if(time === 0){
+            time = 30;
+            clean_answers();
+            make_question();
+            check_state();
+        }
+    }
 
-
-
-
+    //******************************************************code starts here************************************************ */
+    set_up_response_array();
     make_question();
-    //find_right_answer();
+
+    Control_Interval = setInterval(() => {
+        console.log("tick")
+        tick();
+    },100);
     
     response_display.on("click", ".answer-space", function(event){
         if(completion === false){
-            
+            clearInterval(Control_Interval);
             user_answer(response_display.find(event.target));
             clean_answers();
             make_question();
             check_state();
+            Control_Interval = setInterval(() => {
+                tick();
+            },1000);
         
 
         }
