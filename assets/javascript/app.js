@@ -1,7 +1,7 @@
-$(document).ready(function(){
+$(window).load(function(){
     var main_body = $("#main-body");
-    var questions = ["He who controls the spice controls?:","The gunslinger followed the?:","Do androids dream of?:","___ is watching you?:", "I can't let you do that __: ",
-    "fear is the ___:","Don't ___: ","IT'S ____:","One who aims with their eyes has ___:","so long and ___:"];
+    var questions = ["He who controls the spice controls?:","The gunslinger followed the?:","Do androids dream of?:","___ is watching you?:", "I'm afraid I can't do that __: ",
+    "fear is the ___:","Don't ___: ","IT'S ____:","Luke i am your ___:","so long and ___:"];
     var responses = new Array(4);
     var total_questions =0;
     var wrong_questions=0;
@@ -14,6 +14,10 @@ $(document).ready(function(){
     var watch = $("#watch");
     var Control_Interval;
     var time = 30;
+    var question_pic = new Image();
+    var pic_canvas = $('<canvas/>',{'id':'pic-canvas'}).width(200).height(200);
+    
+
 
 
 
@@ -30,7 +34,7 @@ $(document).ready(function(){
        responses[5]=["spice of life","problem","mind killer","motivater"];
        responses[6]=["freak out","get confused","press that button","panic"];
        responses[7]=["DEAD JIM","ALIVE!","NOT WORKING","RIGHT THERE"];
-       responses[8]=["good vision","missed the point","forgotten the face of their father","no heart"];
+       responses[8]=["mother","father","brother","father's brother's nephew's cousin's former roommate"];
        responses[9]=["thanks for all the fish", "we're out of here","sorry about last night","always bring a towel"];
    }
 
@@ -120,8 +124,6 @@ $(document).ready(function(){
         }
     }
     function user_answer(element){
-        console.log(element.data("text-data"));
-        console.log(right_answer);
         if(element.data("text-data") !== right_answer){
             wrong_questions++;    
         }else{
