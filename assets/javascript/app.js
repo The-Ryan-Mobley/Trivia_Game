@@ -1,9 +1,11 @@
 $(document).ready(function(){
     var main_body = $("#main-body");
-    var questions = ["He who controls the spice controls?:","The gunslinger followed the?:","Do androids dream of?:","___ is watching you?:", "I can't let you do that __: "];
+    var questions = ["He who controls the spice controls?:","The gunslinger followed the?:","Do androids dream of?:","___ is watching you?:", "I can't let you do that __: ",
+    "fear is the ___:","Don't ___: ","IT'S ____:","One who aims with their eyes has ___:","so long and ___:"];
     var responses = new Array(4);
     var total_questions =0;
     var wrong_questions=0;
+    var right_answers=0;
     var completion = false;
     var right_answer = "";
     var question_count=$("#question-count");
@@ -25,6 +27,11 @@ $(document).ready(function(){
        responses[2]=["Refactoring code","Electric sheep","Cybernetic Chickens","The great basilisk. the greatest invention of them all"];
        responses[3]=["fat albert","The party","Big brother","Uncle Sam"];
        responses[4]=["Dave","Jim","Hal","Star fox"];
+       responses[5]=["spice of life","problem","mind killer","motivater"];
+       responses[6]=["freak out","get confused","press that button","panic"];
+       responses[7]=["DEAD JIM","ALIVE!","NOT WORKING","RIGHT THERE"];
+       responses[8]=["good vision","missed the point","forgotten the face of their father","no heart"];
+       responses[9]=["thanks for all the fish", "we're out of here","sorry about last night","always bring a towel"];
    }
 
     
@@ -52,7 +59,7 @@ $(document).ready(function(){
         
         time = 30;
         question_to_display = questions[total_questions];
-        find_right_answer();
+        find_right_answer(total_questions);
         make_answers(total_questions);
         watch.html("Time Left: " + time);
         question_count.html("Question #" + total_questions + ":");
@@ -70,7 +77,7 @@ $(document).ready(function(){
     function find_right_answer(TQ){
         switch(TQ){
             case 0:{
-                right_answer =responses[0][3];
+                right_answer =responses[0][2];
                 break;
             }
             case 1:{
@@ -89,25 +96,47 @@ $(document).ready(function(){
                 right_answer = responses[4][0];
                 break;
             }
+            case 5:{
+                right_answer = responses[5][2];
+                break;
+            }
+            case 6:{
+                right_answer = responses[6][3];
+                break;
+            }
+            case 7:{
+                right_answer = responses[7][1];
+                break;
+            }
+            case 8:{
+                right_answer = responses[8][2];
+                break;
+            }
+            case 9:{
+                right_answer = responses[9][0];
+                break;
+            }
 
         }
     }
     function user_answer(element){
         console.log(element.data("text-data"));
+        console.log(right_answer);
         if(element.data("text-data") !== right_answer){
-            wrong_questions++;
-            console.log(wrong_questions);
+            wrong_questions++;    
+        }else{
+            right_answers++;
         }
 
 
     }
     function endscreen(){
         let answer_space = $('<p class="answer-space">');
-        let right_answers = total_questions - wrong_questions;
+        
         clean_answers();
         watch.html("TIME");
         question_count.html("GAME OVER!");
-        question_bilboard.html("YOUR SCORE: <br> Right Answers" + right_answers + "<br> Wrong Answers: " + wrong_questions + "<br> Final score: "+ right_answers*10);
+        question_bilboard.html("YOUR SCORE: <br> Right Answers" + right_answers + "<br> Wrong Answers: " + wrong_questions + "<br> Final score: "+ (right_answers*10));
         answer_space.appendTo(response_display);
         answer_space.html("Restart?");
         
@@ -117,16 +146,16 @@ $(document).ready(function(){
         if(total_questions === responses.length){
             completion = true;
             endscreen();
+            clearInterval(Control_Interval);
         }
     }
     function tick(){
         time--;
-        watch.html = ("Time Left: " + time);
-        wrong_questions++;
-        
+        watch.html("Time Left: " + time);
         
         if(time === 0){
             time = 30;
+            wrong_questions++;
             clean_answers();
             make_question();
             check_state();
@@ -138,9 +167,8 @@ $(document).ready(function(){
     make_question();
 
     Control_Interval = setInterval(() => {
-        console.log("tick")
         tick();
-    },100);
+    },1000);
     
     response_display.on("click", ".answer-space", function(event){
         if(completion === false){
@@ -156,6 +184,7 @@ $(document).ready(function(){
 
         }
         else{
+            clearInterval(Control_Interval);
             game_over();
         }
         
