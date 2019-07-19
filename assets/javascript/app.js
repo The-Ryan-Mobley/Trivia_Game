@@ -16,12 +16,7 @@ $(window).on('load',function(){
     var Control_Interval;
     var time = 30;
     var question_pic = new Image();
-    
-    
-
-
-
-
+    var game_start = false;
     
    function set_up_response_array(){
     for(let i=0; i < responses.length;i++){
@@ -69,7 +64,7 @@ $(window).on('load',function(){
     }
     function find_right_answer(TQ){
         let right_list = ["The universe","The man in black","Electric sheep","Big brother","Dave",
-        "mind killer","panic","ALIVE!",];
+        "mind killer","panic","ALIVE!","father","thanks for all the fish"];
         let source_list = ["assets/images/spice_must_flow.jpg","assets/images/a24321d3060379def7dd0e1c7d53af47.jpg",
         "assets/images/bits_bladerunner.1.jpg","assets/images/320998.jpg","assets/images/Im+afraid+i+cant+let+you+do+that+dave+_51f9a022cee2586facec11d87b7f82c4.png",
         "assets/images/image-fear-is-the-mind-killer-720x405.jpg","assets/images/Hitchhikers-Guide-Dont-Panic-Thumb-975-Decal-Sticker.jpg",
@@ -79,12 +74,18 @@ $(window).on('load',function(){
         question_pic.src = source_list[TQ];
     }
     function user_answer(element){
-        if(element.data("text-data") !== right_answer){
-            wrong_questions++
-            pic_element.attr("src","assets/images/33563271-wrong-red-rubber-stamp-over-a-white-background-.jpg");    
-        }else{
-            right_answers++;
-            pic_element.attr("src", question_pic.src);   
+        if(game_start === true){
+            if(element.data("text-data") !== right_answer){
+                wrong_questions++
+                pic_element.attr("src","assets/images/33563271-wrong-red-rubber-stamp-over-a-white-background-.jpg");    
+            }else{
+                right_answers++;
+                pic_element.attr("src", question_pic.src);   
+            }
+        }
+        else{
+            pic_element.attr("src","assets/images/kisspng-power-symbol-button-computer-icons-icon-power-button-svg-5ab09bdead88a2.6606372415215236787108.jpg");
+            game_start = true;
         }
     }
     function endscreen(){
@@ -119,11 +120,11 @@ $(window).on('load',function(){
             new_set_up();
         }
     }
-    function in_between(target){ ///displays image inbetween questions array question if right red x if wrong
+    function in_between(){ ///displays image inbetween questions array question if right red x if wrong
         clean_answers();
         
         pic_element.height(200);
-        pic_element.width(200);
+        pic_element.width(300);
         pic_element.appendTo(response_display);
         setTimeout(()=>{
             time =30;
@@ -131,10 +132,19 @@ $(window).on('load',function(){
         },1000);
 
     }
+    function start_screen(){
+        
+        let answer_space = $('<p class="answer-space">');
+        watch.html("You have 30 seconds")
+        question_bilboard.html("Pick the right answer before time runs out");
+        answer_space.appendTo(response_display);
+        answer_space.html("START!");
+
+    }
 
     //******************************************************code starts here************************************************ */
     set_up_response_array();
-    make_question();
+    start_screen();
 
     Control_Interval = setInterval(() => {
         tick();
@@ -148,14 +158,10 @@ $(window).on('load',function(){
             Control_Interval = setInterval(() => {
                 tick();
             },1000);
-        
-
         }
         else{
             clearInterval(Control_Interval);
             game_over();
         }
-        
     });
-
 });
