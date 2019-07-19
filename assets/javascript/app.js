@@ -4,6 +4,7 @@ $(window).on('load',function(){
     "fear is the ___:","Don't ___: ","IT'S ____:","Luke i am your ___:","so long and ___:"];
     var responses = new Array(10);
     var total_questions =0;
+    var question_number = 1;
     var wrong_questions=0;
     var right_answers=0;
     var completion = false;
@@ -50,9 +51,11 @@ $(window).on('load',function(){
         find_right_answer(total_questions);
         make_answers(total_questions);
         watch.html("Time Left: " + time);
-        question_count.html("Question #" + total_questions + ":");
+        question_count.html("Question #" + question_number + ":");
         question_bilboard.html(question_to_display);
+        question_number++;
         total_questions++;
+        
     }
     
     function clean_answers(){
@@ -99,16 +102,24 @@ $(window).on('load',function(){
         answer_space.html("Restart?");
     }
     function check_state(){
+        
+        
         if(total_questions === responses.length){
-            completion = true;
             endscreen();
             clearInterval(Control_Interval);
+            completion = true;
+            
         }
+        
+        
     }
     function new_set_up(){
-        clean_answers();
-        make_question();
-        check_state();
+        if(completion === false){
+            check_state();
+            clean_answers();
+            make_question();
+        }
+        
     }
     function tick(){
         time--;
@@ -133,22 +144,16 @@ $(window).on('load',function(){
 
     }
     function start_screen(){
-        
         let answer_space = $('<p class="answer-space">');
         watch.html("You have 30 seconds")
         question_bilboard.html("Pick the right answer before time runs out");
         answer_space.appendTo(response_display);
         answer_space.html("START!");
-
     }
 
     //******************************************************code starts here************************************************ */
     set_up_response_array();
     start_screen();
-
-    Control_Interval = setInterval(() => {
-        tick();
-    },1000);
     
     response_display.on("click", ".answer-space", function(event){
         if(completion === false){

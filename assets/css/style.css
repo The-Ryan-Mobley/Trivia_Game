@@ -1,6 +1,16 @@
 *{
     text-align: center;
 }
+.jumbotron{
+    background-image: url(../images/prism.png);
+    background-repeat:repeat-x;
+    font-family: 'Monoton', cursive;
+    color:#ffffff;
+    font-size: 45px;
+}
+#main-body{
+    font-family: 'Orbitron', sans-serif;
+}
 .answer-space{
     text-align:center;
     padding:1%;
