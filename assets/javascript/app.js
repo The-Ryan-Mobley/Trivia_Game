@@ -1,5 +1,5 @@
 $(window).on('load',function(){
-    var main_body = $("#main-body");
+    //var main_body = $("#main-body"); thought i would need it but i didnt
     var questions = ["He who controls the spice controls?:","The gunslinger followed the?:","Do androids dream of?:","___ is watching you?:", "I'm afraid I can't do that __: ",
     "fear is the ___:","Don't ___: ","IT'S ____:","Luke i am your ___:","so long and ___:"];
     var responses = new Array(10);
@@ -12,9 +12,10 @@ $(window).on('load',function(){
     var question_bilboard=$("#question-display");
     var response_display=$("#response-display");
     var watch = $("#watch");
+    var pic_element = $('<img>');
     var Control_Interval;
     var time = 30;
-    var question_pic = new Image(200,200);
+    var question_pic = new Image();
     
     
 
@@ -38,26 +39,14 @@ $(window).on('load',function(){
        responses[9]=["thanks for all the fish", "we're out of here","sorry about last night","always bring a towel"];
    }
 
-    
-    
-
-    
-    
-    
-
     function make_answers(index){ ///needs to splice after answer generation
         for(let i=0;i<4;i++){
             let answer_space = $('<p class="answer-space">');
             let answer_text = responses[index][i];
             answer_space.appendTo(response_display);
             answer_space.html(answer_text);
-            answer_space.data("text-data",answer_text);
-            
-        }
-        
-        
-        
-        
+            answer_space.data("text-data",answer_text); 
+        }  
     }
     function make_question(){
         
@@ -86,16 +75,17 @@ $(window).on('load',function(){
         "assets/images/image-fear-is-the-mind-killer-720x405.jpg","assets/images/Hitchhikers-Guide-Dont-Panic-Thumb-975-Decal-Sticker.jpg",
         "assets/images/FrankMonster.jpg","assets/images/_50101230_file0011.jpg","assets/images/2405_shirt_ee9da7c533758fb00eb7be9a1c5bfb44.gif"];
         right_answer = right_list[TQ];
+        
         question_pic.src = source_list[TQ];
     }
     function user_answer(element){
         if(element.data("text-data") !== right_answer){
-            wrong_questions++;    
+            wrong_questions++
+            pic_element.attr("src","assets/images/33563271-wrong-red-rubber-stamp-over-a-white-background-.jpg");    
         }else{
             right_answers++;
+            pic_element.attr("src", question_pic.src);   
         }
-
-
     }
     function endscreen(){
         let answer_space = $('<p class="answer-space">');
@@ -106,8 +96,6 @@ $(window).on('load',function(){
         question_bilboard.html("YOUR SCORE: <br> Right Answers" + right_answers + "<br> Wrong Answers: " + wrong_questions + "<br> Final score: "+ (right_answers*10));
         answer_space.appendTo(response_display);
         answer_space.html("Restart?");
-        
-
     }
     function check_state(){
         if(total_questions === responses.length){
@@ -116,6 +104,11 @@ $(window).on('load',function(){
             clearInterval(Control_Interval);
         }
     }
+    function new_set_up(){
+        clean_answers();
+        make_question();
+        check_state();
+    }
     function tick(){
         time--;
         watch.html("Time Left: " + time);
@@ -123,10 +116,20 @@ $(window).on('load',function(){
         if(time === 0){
             time = 30;
             wrong_questions++;
-            clean_answers();
-            make_question();
-            check_state();
+            new_set_up();
         }
+    }
+    function in_between(target){ ///displays image inbetween questions array question if right red x if wrong
+        clean_answers();
+        
+        pic_element.height(200);
+        pic_element.width(200);
+        pic_element.appendTo(response_display);
+        setTimeout(()=>{
+            time =30;
+            new_set_up();
+        },1000);
+
     }
 
     //******************************************************code starts here************************************************ */
@@ -141,9 +144,7 @@ $(window).on('load',function(){
         if(completion === false){
             clearInterval(Control_Interval);
             user_answer(response_display.find(event.target));
-            clean_answers();
-            make_question();
-            check_state();
+            in_between(response_display.find(event.target));
             Control_Interval = setInterval(() => {
                 tick();
             },1000);
