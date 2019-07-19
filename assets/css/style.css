@@ -1,19 +1,69 @@
 *{
     text-align: center;
+    
+}
+
+body{
+    background-image: url(../images/milky-way-starry-sky-night-sky-star-956981.jpeg);
 }
 .jumbotron{
-    background-image: url(../images/prism.png);
-    background-repeat:repeat-x;
+    background:none !important;
     font-family: 'Monoton', cursive;
-    color:#ffffff;
+    text-shadow: -1px 0 #24b020, 0 1px #24b020, 1px 0 #24b020, 0 -1px #24b020;
+    color:#dcddde;
     font-size: 45px;
+    margin-bottom:-1%;
+    
+    
 }
 #main-body{
+    margin-top:2%;
     font-family: 'Orbitron', sans-serif;
+    overflow:hidden;
+    clear: both;
+    position: auto;
+    width:100%;
+    padding-bottom:10%;
+    
+}
+#watch{
+    padding:1%;
+    color: #dcddde;
+    text-shadow: -1px 0 #24b020, 0 1px #24b020, 1px 0 #24b020, 0 -1px #24b020;
+  
+
+}
+#question-count{
+    padding:1%;
+    color: #dcddde;
+    text-shadow: -1px 0 #24b020, 0 1px #24b020, 1px 0 #24b020, 0 -1px #24b020;
+   
+
+}
+#question-display{
+    padding:1%;
+    color: #dcddde;
+    text-shadow: -1px 0 #24b020, 0 1px #24b020, 1px 0 #24b020, 0 -1px #24b020;
+    
+
+}
+#response-display{
+    padding:1%;
+    
+
 }
 .answer-space{
+    border-radius: 25px;
+    border-style:groove;
+    border-color:#0d324d;
+   
+    border-width:1%;
     text-align:center;
+    margin:0 20% 2% 20%;
     padding:1%;
-    color: #ffffff;
-    background-color:blue;
+    color: #dcddde;
+    text-shadow: -1px 0 #24b020, 0 1px #24b020, 1px 0 #24b020, 0 -1px #24b020;
+    background-color: #3e5f85;
+    background-image: linear-gradient(315deg, #3e5f85 0%, #0d324d 74%);
+
 }

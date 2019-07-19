@@ -87,7 +87,7 @@ $(window).on('load',function(){
             }
         }
         else{
-            pic_element.attr("src","assets/images/kisspng-power-symbol-button-computer-icons-icon-power-button-svg-5ab09bdead88a2.6606372415215236787108.jpg");
+            pic_element.attr("src","assets/images/kisspng-product-design-marketing-consumer-behaviour-custom-5b7d9aa283e516.7737241115349582425403.png");
             game_start = true;
         }
     }
