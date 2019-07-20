@@ -74,10 +74,10 @@ $(window).on('load',function(){
         right_answer = right_list[TQ];
         question_pic.src = source_list[TQ];
     }
-    function user_answer(element){                                          //checks whether the user selected the right answer, also displays start image
+    function user_answer(element){                                         //checks whether the user selected the right answer, also displays start image
         if(game_start === true){
             if(element.data("text-data") !== right_answer){
-                wrong_questions++
+                wrong_questions++;
                 pic_element.attr("src","assets/images/33563271-wrong-red-rubber-stamp-over-a-white-background-.jpg");    
             }else{
                 right_answers++;
@@ -88,6 +88,7 @@ $(window).on('load',function(){
             pic_element.attr("src","assets/images/kisspng-product-design-marketing-consumer-behaviour-custom-5b7d9aa283e516.7737241115349582425403.png");
             game_start = true;
         }
+        
     }
     function endscreen(){                                               //appears at the end of the game and displays score and reset option
         
@@ -130,6 +131,7 @@ $(window).on('load',function(){
         setTimeout(()=>{
             time =30;
             new_set_up();
+            
         },1000);
 
     }
