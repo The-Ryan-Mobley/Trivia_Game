@@ -53,10 +53,10 @@ body{
 
 }
 .answer-space{
+    width:50%;
     border-radius: 25px;
     border-style:groove;
     border-color:#0d324d;
-   
     border-width:1%;
     text-align:center;
     margin:0 20% 2% 20%;
