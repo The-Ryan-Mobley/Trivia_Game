@@ -67,3 +67,7 @@ body{
     background-image: linear-gradient(315deg, #3e5f85 0%, #0d324d 74%);
 
 }
+.answer-space:hover{
+    opacity: 0.5;
+
+}
