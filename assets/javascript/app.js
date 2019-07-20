@@ -1,7 +1,7 @@
 $(window).on('load',function(){
     //var main_body = $("#main-body"); thought i would need it but i didnt
-    var questions = ["He who controls the spice controls?:","The gunslinger followed the?:","Do androids dream of?:","___ is watching you?:", "I'm afraid I can't do that __: ",
-    "fear is the ___:","Don't ___: ","IT'S ____:","Luke i am your ___:","so long and ___:"];
+    var questions = ["He who controls the spice controls _:","The gunslinger followed the _:","Do androids dream of _?:","_ is watching you?:", "I'm afraid I can't do that _: ",
+    "fear is the _:","Don't _: ","IT'S _:","Luke i am your _:","so long and _:"];
     var responses = new Array(10);
     var total_questions =0;
     var question_number = 1;
@@ -26,12 +26,12 @@ $(window).on('load',function(){
        responses[0]=["The world","The road","The universe","Flavortown"];
        responses[1]=["The dude","The man in black","Matthew McConaughey","Yellow brick road"];
        responses[2]=["Refactoring code","Electric sheep","Cybernetic Chickens","The great basilisk. the greatest invention of them all"];
-       responses[3]=["fat albert","The party","Big brother","Uncle Sam"];
+       responses[3]=["Fat Albert","The party","Big Brother","Uncle Sam"];
        responses[4]=["Dave","Jim","Hal","Star fox"];
        responses[5]=["spice of life","problem","mind killer","motivater"];
        responses[6]=["freak out","get confused","press that button","panic"];
        responses[7]=["DEAD JIM","ALIVE!","NOT WORKING","RIGHT THERE"];
-       responses[8]=["mother","father","brother","father's brother's nephew's cousin's former roommate"];
+       responses[8]=["Bother","Father","Brother","Father's brother's nephew's cousin's former roommate"];
        responses[9]=["thanks for all the fish", "we're out of here","sorry about last night","always bring a towel"];
    }
 
@@ -48,14 +48,16 @@ $(window).on('load',function(){
         
         time = 30;
         question_to_display = questions[total_questions];
-        find_right_answer(total_questions);
-        make_answers(total_questions);
-        watch.html("Time Left: " + time);
-        question_count.html("Question #" + question_number + ":");
-        question_bilboard.html(question_to_display);
+        
+        if(completion === false){
+            make_answers(total_questions);
+            find_right_answer(total_questions);
+            question_count.html("Question #" + question_number + ":");
+            watch.html("Time Left: " + time);
+            question_bilboard.html(question_to_display);
+        }
         question_number++;
         total_questions++;
-        
     }
     
     function clean_answers(){
@@ -66,8 +68,8 @@ $(window).on('load',function(){
 
     }
     function find_right_answer(TQ){
-        let right_list = ["The universe","The man in black","Electric sheep","Big brother","Dave",
-        "mind killer","panic","ALIVE!","father","thanks for all the fish"];
+        let right_list = ["The universe","The man in black","Electric sheep","Big Brother","Dave",
+        "mind killer","panic","ALIVE!","Father","thanks for all the fish"];
         let source_list = ["assets/images/spice_must_flow.jpg","assets/images/a24321d3060379def7dd0e1c7d53af47.jpg",
         "assets/images/bits_bladerunner.1.jpg","assets/images/320998.jpg","assets/images/Im+afraid+i+cant+let+you+do+that+dave+_51f9a022cee2586facec11d87b7f82c4.png",
         "assets/images/image-fear-is-the-mind-killer-720x405.jpg","assets/images/Hitchhikers-Guide-Dont-Panic-Thumb-975-Decal-Sticker.jpg",
@@ -92,31 +94,25 @@ $(window).on('load',function(){
         }
     }
     function endscreen(){
-        let answer_space = $('<p class="answer-space">');
         
-        clean_answers();
+        let restart_button = $('<p class="answer-space">');
         watch.html("TIME");
         question_count.html("GAME OVER!");
         question_bilboard.html("YOUR SCORE: <br> Right Answers" + right_answers + "<br> Wrong Answers: " + wrong_questions + "<br> Final score: "+ (right_answers*10));
-        answer_space.appendTo(response_display);
-        answer_space.html("Restart?");
+        restart_button.appendTo(response_display);
+        restart_button.html("Restart?");
     }
     function check_state(){
-        
-        
         if(total_questions === responses.length){
-            endscreen();
             clearInterval(Control_Interval);
-            completion = true;
-            
-        }
-        
-        
+            endscreen();
+            completion = true;      
+        }   
     }
     function new_set_up(){
         if(completion === false){
-            check_state();
             clean_answers();
+            check_state()
             make_question();
         }
         
